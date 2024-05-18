@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        Hola Mundo
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Subida de archivos</title>
+</head>
+<body>
+    <form name="formulario" method="post" enctype="multipart/form-data" action="/upload">
+        <p>CSV File: <br><input type="file" name="csvFile" id="file" accept=".csv"></p>
+        <p>ZIP File: <br><input type="file" name="zipFile" id="folder" accept=".zip"></p>
+        <button type="submit">Subir archivos</button>
+    </form>
+</body>
 </html>
