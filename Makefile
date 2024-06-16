@@ -19,11 +19,12 @@ venv:  ## Create a virtual environment.
 
 
 .PHONY: fmt
-fmt:  ## Format python code
-	isort src/
-	isort tests/
-	autopep8 --experimental --max-line-length 100 --in-place --recursive src/
-	autopep8 --experimental --max-line-length 100 --in-place --recursive tests/
+fmt:       ## Format python code.
+	@echo "=============================="
+	@echo "Formatting code..."
+	@echo "=============================="
+	@ruff check --fix --select I
+	@ruff format .
 
 
 .PHONY: install

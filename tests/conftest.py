@@ -3,6 +3,7 @@ from flask.testing import FlaskClient
 
 from src.app import app
 
+
 @pytest.fixture(autouse=True, scope="session")
 def fake_client() -> FlaskClient:
     """This function creates a test client that
