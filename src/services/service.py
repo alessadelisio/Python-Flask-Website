@@ -88,19 +88,15 @@ def validate_files_exists(zip_list: list, csv_dict: dict) -> bool:
     not in the `csv_dict`.
     """
 
-    not_exist = 0
-    not_exist_list = []
+    missing_files = []
 
-    for file in zip_list:
-        if file in csv_dict.keys():
-            pass
-        else:
-            not_exist += 1
-            not_exist_list.append(file)
+    for file in csv_dict.keys():
+        if file not in zip_list:
+            missing_files.append(file)
 
     response = {
-        "Count of missing files:": not_exist,
-        "List of missing files:": not_exist_list,
+        "Count of missing files:": len(missing_files),
+        "List of missing files:": missing_files,
     }
 
     return response
