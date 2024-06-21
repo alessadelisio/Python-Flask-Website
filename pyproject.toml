@@ -1,0 +1,56 @@
+[project]
+description = ""
+name = "Python-Flask-Website"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+output-format = "json"
+lint.select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # pydocstyle
+    "D101",
+    "D102",
+    "D103",
+    # Mccabe
+    "C90",
+    # Pylint
+    "PL",
+    # Eradicate
+    "ERA",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-print
+    "T20",
+    # Ruff
+    "RUF",
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 50
+
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+    "/tests/",
+]
