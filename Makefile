@@ -1,5 +1,5 @@
 .PHONY: help
-help:  ## Show the help.
+help:     ## Show the help.
 	@echo "Usage: make <target>"
 	@echo ""
 	@echo "Targets:"
@@ -7,7 +7,7 @@ help:  ## Show the help.
 
 
 .PHONY: venv
-venv:  ## Create a virtual environment.
+venv:     ## Create a virtual environment.
 	@echo "=============================="
 	@echo "Creating virtual environment..."
 	@echo "=============================="
@@ -19,7 +19,7 @@ venv:  ## Create a virtual environment.
 
 
 .PHONY: fmt
-fmt:       ## Format python code.
+fmt:      ## Format python code.
 	@echo "=============================="
 	@echo "Formatting code..."
 	@echo "=============================="
@@ -38,7 +38,7 @@ install:  ## Install dependencies.
 
 
 .PHONY: clean
-clean:  ## Clean unused files.
+clean:    ## Clean unused files.
 	@rm -rf build
 	@rm -rf reports/ || true
 	@rm -f .coverage || true
@@ -46,7 +46,7 @@ clean:  ## Clean unused files.
 
 
 .PHONY: lint
-lint: # Check code smells with Ruff
+lint:     ## Check code smells with Ruff
 	@echo "=============================="
 	@echo "Searching for code smells..."
 	@echo "=============================="
@@ -57,23 +57,14 @@ lint: # Check code smells with Ruff
 
 
 .PHONY: test
-test:  ## Run tests and coverage.
+test:     ## Run tests and coverage.
 	@echo "=============================="
 	@echo "Running tests..."
 	@echo "=============================="
-	@mkdir -p reports
+	@mkdir -p reports || true
 	@python -m pytest
 
 
-.PHONY: security
-security:  ## Run dependency security check.
-	@echo "=============================="
-	@echo "Running security check..."
-	@echo "=============================="
-	@mkdir -p reports
-	@safety check -r requirements.txt --output screen
-
-
 .PHONY: Run
-run:  ## Run uvicorn
+run:      ## Run uvicorn
 	APP_ENVIRONMENT=local gunicorn --workers=1 --bind=0.0.0.0:8080 --log-level DEBUG --threads 8 --timeout 0 src.app:app --reload

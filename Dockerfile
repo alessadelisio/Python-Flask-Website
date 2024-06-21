@@ -1,15 +1,14 @@
 FROM python:3.10-slim
 
 
-ENV WORKDIR_ROUTE /app
 ENV PORT 8000
 ENV PYTHONUNBUFFERED True
 
 
-WORKDIR ${WORKDIR_ROUTE}
+WORKDIR /app
 
 
-COPY . ${WORKDIR_ROUTE}
+COPY . /app/
 
 
 RUN pip install -r requirements.txt

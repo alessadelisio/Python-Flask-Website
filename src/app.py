@@ -10,12 +10,12 @@ app.register_blueprint(upload_router)
 
 
 @app.route("/")
-def index():
+def index():  # noqa: D103
     return render_template("index.html")
 
 
 @app.route("/compare")
-def compare():
+def compare():  # noqa: D103
     return render_template("pages/compare.html")
 
 

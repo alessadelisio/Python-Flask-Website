@@ -26,10 +26,10 @@ def files_to_dict(csv_file: FileStorage) -> dict:
         csv_stream = csv_file.stream.read().decode("utf-8")
         csv_reader = csv.reader(csv_stream.splitlines(), delimiter=";")
 
-        next(csv_reader)
+        next(csv_reader)  # Salta la primera fila del documento CSV.
 
-    except Exception as e:
-        raise Exception("Error: csv_file could not be read.") from e
+    except Exception as error:
+        raise Exception("Error: csv_file could not be read.") from error
 
     for row in csv_reader:
         # Asumir que la columna 1 es la key y la columna 2 es el value
@@ -64,13 +64,13 @@ def unzip_files(zip_file: FileStorage) -> list:
         with zipfile.ZipFile(zip_file.stream, mode="r") as my_zip:
             zip_list_files = my_zip.namelist()
 
-    except Exception as e:
-        raise Exception("Error: `zip_file` could not be read.") from e
+    except Exception as error:
+        raise Exception("Error: `zip_file` could not be read.") from error
 
     return zip_list_files
 
 
-def validate_files_exists(zip_list: list, csv_dict: dict) -> bool:
+def validate_files_exists(zip_list: list, csv_dict: dict) -> dict:
     """
     This function validates the information in
     a CVS file againts the content of a folder.
@@ -82,15 +82,13 @@ def validate_files_exists(zip_list: list, csv_dict: dict) -> bool:
     the CSV file.
 
     Returns:
-    - True: If all files within the ZIP object are in
-    the `csv_dict`.
-    - False: If only one file within the ZIP object is
-    not in the `csv_dict`.
+    - response (dict): A dictionary containing the
+    number of missing files and a list of them.
     """
 
     missing_files = []
 
-    for file in csv_dict.keys():
+    for file in csv_dict:
         if file not in zip_list:
             missing_files.append(file)
 
