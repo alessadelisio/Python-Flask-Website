@@ -1,0 +1,88 @@
+name: Development
+
+on:
+  push:
+    branches:
+      - feature/*
+      - dev.*
+
+jobs:
+  linter:
+    if: github.actor != 'github-classroom[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup packages'
+        run: pip install -r requirements-dev.txt
+
+      - name: 'Code lint'
+        run: make lint
+      
+      - name: 'Upload lint reports'
+        uses: actions/upload-artifact@v3
+        with:
+          name: lints-reports
+          path: reports/lint-reports/**
+
+  unit-tests:
+    if: github.actor != 'github-classroom[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Setup packages'
+        run: |
+          pip install -r requirements-test.txt
+          pip install -r requirements.txt
+
+      - name: 'Test code'
+        run: make test
+      
+      - name: 'Upload tests reports'
+        uses: actions/upload-artifact@v3
+        with:
+          name: tests-reports
+          path: reports/html/**
+
+  staging-deploy:
+    if: github.actor != 'github-classroom[bot]'
+    runs-on: ubuntu-latest
+
+    environment: staging
+
+    env:
+      REGISTRY_NAME: ${{ vars.REGISTRY_NAME }} 
+      GCP_PROJECT: ${{ vars.GCP_PROJECT }}
+      GCP_REPOSITORY: ${{ vars.GCP_REPOSITORY }}
+      GCP_APPLICATION: ${{ vars.GCP_APPLICATION }}
+
+    needs:
+      - linter
+      - unit-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.CICD_GOOGLE_CREDENTIALS }}'
+
+      - name: 'Publishing image'
+        id: step-publish
+        run: |
+          gcloud auth configure-docker ${{ vars.REGISTRY_NAME }}
+          ./scripts/publish-image
+
+      - name: 'Deploy image to staging'
+        id: step-deploy-image
+        run: |
+          gcloud config set run/region us-central1
+          ./scripts/deploy-image
+
+    outputs:
+      CLOUDRUN_URL_STAGING: ${{ steps.step-deploy-image.outputs.CLOUDRUN_URL_OUTPUT_PATH }}

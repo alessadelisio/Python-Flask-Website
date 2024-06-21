@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+IMAGE_NAME="$REGISTRY_NAME/$GCP_PROJECT/$GCP_REPOSITORY/$GCP_APPLICATION"
+
+CLOUDRUN_URL_OUTPUT_PATH=$(gcloud run deploy $GCP_APPLICATION \
+  --image $IMAGE_NAME \
+  --platform managed \
+  --allow-unauthenticated \
+  --memory 512M \
+  --format='value(status.url)')
+
+echo "CLOUDRUN_URL_OUTPUT_PATH=$CLOUDRUN_URL_OUTPUT_PATH" >> "$GITHUB_OUTPUT"

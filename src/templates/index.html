@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subida de archivos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav id="bottom-bar">
+        <button onclick="location.href= '{{ url_for('compare') }}'">Compare Simple</button>
+    </nav>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subida de archivos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1 id="left-text">MAKE SIMPLE</h1>
+    </header>
+    <img
+            id="photo-image"
+            width="300"
+            title="Imagen persona en cuerda floja" 
+            src="{{ url_for('static', filename='assets/img/principal.jpg') }}" 
+            alt="Una imagen en blanco y negro de una persona con una bara sobre una cuerda floja."
+    >
+    <nav id="bottom-bar">
+         <button onclick="location.href= '{{ url_for('compare') }}'">Compare Simple</button>
+    </nav>
+</body>
+</html>
