@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 EXPOSE ${PORT}
 
 
-CMD hypercorn src.app:app --bind :${PORT} --workers 1 --threads 8 --log-level debug --reload
+CMD hypercorn src.app:asgi_app --bind 0.0.0.0:${PORT} --workers 1 --log-level debug --reload
