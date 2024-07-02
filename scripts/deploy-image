@@ -7,7 +7,7 @@ CLOUDRUN_URL_OUTPUT_PATH=$(gcloud run deploy $GCP_APPLICATION \
   --image $IMAGE_NAME \
   --platform managed \
   --allow-unauthenticated \
-  --memory M \
+  --memory 512M \
   --use-http2 \
   --format='value(status.url)')
 
